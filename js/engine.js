@@ -21,13 +21,16 @@ var Engine = (function(global) {
      */
     var doc = global.document,
         win = global.window,
-        canvas = doc.createElement('canvas'),
+        //canvas = doc.createElement('canvas'),
+        canvas = doc.querySelector("#gamecanvas"),
+        score = doc.querySelector("#score"),
         ctx = canvas.getContext('2d'),
         lastTime;
 
-    canvas.width = 505;
-    canvas.height = 606;
-    doc.body.appendChild(canvas);
+        
+    //canvas.width = 505;
+    //canvas.height = 606;
+    //doc.body.appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -67,6 +70,12 @@ var Engine = (function(global) {
         reset();
         lastTime = Date.now();
         main();
+        $("#avatar").cycle ({
+            fx: 'fade',
+            timeout: 0,
+            next: '#avatar',
+            after: changeAvatar
+        });
     }
 
     /* This function is called by main (our game loop) and itself calls all
@@ -88,11 +97,12 @@ var Engine = (function(global) {
         {
             for (var e of allEnemies) {
                 //console.log(e.x, player.x);
-                if ((e.y == player.y) && (Math.abs(e.x - player.x) < 101)) {
+                // reduce from 101 to 80 for the transparent area in the png
+                if ((e.y == player.y) && (Math.abs(e.x - player.x) < 80)) {
                     //reset player to start posistion
-                    player.x = 2*101;
-                    player.y = 5* 83;
-                    console.log("collides");
+                    player.restart();
+                    player.score -= 100;
+                    //console.log("collides");
                     break;
                 } // collides
 
@@ -169,6 +179,7 @@ var Engine = (function(global) {
         });
 
         player.render();
+        showScore();
     }
 
     /* This function does nothing but it could have been a good place to
@@ -179,6 +190,15 @@ var Engine = (function(global) {
         // noop
     }
 
+    function showScore() {
+        
+        score.innerHTML = player.score + " points";
+    }
+
+    function changeAvatar() {
+        
+        player.sprite = this.src.substring(this.src.indexOf("images/"));
+    }
     /* Go ahead and load all of the images we know we're going to need to
      * draw our game level. Then set init as the callback method, so that when
      * all of these images are properly loaded our game will start.
@@ -188,7 +208,11 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/char-cat-girl.png',
+        'images/char-pink-girl.png',
+        'images/char-horn-girl.png',
+        'images/char-princess-girl.png',
     ]);
     Resources.onReady(init);
 

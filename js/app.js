@@ -1,3 +1,10 @@
+// the game area is consisting of 5x6 grid
+// row and column notes the starting position in the grid
+// the top left grid is 0,0
+// the width of the grid is 101
+// the height is 83 
+// 101 and 83 are used to convert between grid coordinates and canvas coordinates
+
 // Enemies our player must avoid
 var Enemy = function(row, column,speed) {
     // Variables applied to each of our instances go here,
@@ -6,9 +13,7 @@ var Enemy = function(row, column,speed) {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
-    // the game area is consisted of 5x6 grid
-    // row and column notes the starting position in the grid
-    // the top left grid is 0,0
+
     // x, y are coordinate used in render 
     this.x = column * 101;
     this.y = row * 83;
@@ -38,6 +43,7 @@ Enemy.prototype.render = function() {
 var Player = function(row,column) {
     Enemy.call(this,row,column); //key is to pass args to super class
     this.sprite = 'images/char-boy.png';
+    this.score = 0;
 }
 
 Player.prototype = Object.create(Enemy.prototype);
@@ -47,14 +53,22 @@ Player.prototype.update = function () {
     // overwrite Enemy update with doing nothing
 }
 
+Player.prototype.restart = function () {
+    this.x = 2*101;
+    this.y = 5* 83;
+}
+
 Player.prototype.handleInput = function(key) {
     //console.log(key);
     // update the coordiate when user press arrow keys
     // no move if the new position is out of bound
+    var won = false;
     switch (key) {
         case 'up':
             if ((this.y - 83) >= 0)
                 this.y = this.y - 83;
+            else 
+                won = true;// you won!
             break;
         case 'down':
             if ((this.y +83) <= 415)
@@ -69,15 +83,23 @@ Player.prototype.handleInput = function(key) {
                 this.x = this.x + 101;
             break;
     }
+    // every move is awarded for 10 points
+    this.score = this.score + 10;
     //console.log(this.x, this.y);
+    if (won) {
+        this.score = this.score + 1000;
+        this.restart();
+    }
 }
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 var allEnemies = [];
-allEnemies.push (new Enemy(1,-1,100));
-allEnemies.push (new Enemy(2,-2, 60));
-allEnemies.push (new Enemy(2,-6, 100));
+allEnemies.push (new Enemy(1,-1,200));
+allEnemies.push (new Enemy(2,-2, 160));
+allEnemies.push (new Enemy(2,-6, 300));
 allEnemies.push (new Enemy(3,-10, 150));
+allEnemies.push (new Enemy(2,-6, 300));
+
 
 // Place the player object in a variable called player
 player = new Player(5,2);

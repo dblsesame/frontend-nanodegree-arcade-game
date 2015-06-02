@@ -1,3 +1,24 @@
 body {
     text-align: center;
 }
+
+#ctrlpanel {
+	width: 120px;
+	float: left;
+}
+
+#avatar {
+	padding: 0;
+	margin: 0;
+}
+
+#avatar img {
+	width: 100px;
+	height: 170px;
+	top:0;
+	left: 0;
+}
+
+#score {
+	position: relative;
+}
