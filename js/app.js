@@ -1,11 +1,20 @@
 // Enemies our player must avoid
-var Enemy = function() {
+var Enemy = function(row, column,speed) {
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
 
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+    // the game area is consisted of 5x6 grid
+    // row and column notes the starting position in the grid
+    // the top left grid is 0,0
+    // x, y are coordinate used in render 
+    this.x = column * 101;
+    this.y = row * 83;
+    // in the demo, the bugs are moving in various speed
+    // this is used in update method to determine the new x value
+    this.speed = speed;
 }
 
 // Update the enemy's position, required method for game
@@ -14,6 +23,8 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    this.x = (this.x + (this.speed*dt)) % 750;  
+    //mod with slightly large than width to give some breathing room
 }
 
 // Draw the enemy on the screen, required method for game
@@ -24,12 +35,52 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
+var Player = function(row,column) {
+    Enemy.call(this,row,column); //key is to pass args to super class
+    this.sprite = 'images/char-boy.png';
+}
 
+Player.prototype = Object.create(Enemy.prototype);
+Player.prototype.constructor = Player;
 
+Player.prototype.update = function () {
+    // overwrite Enemy update with doing nothing
+}
+
+Player.prototype.handleInput = function(key) {
+    //console.log(key);
+    // update the coordiate when user press arrow keys
+    // no move if the new position is out of bound
+    switch (key) {
+        case 'up':
+            if ((this.y - 83) >= 0)
+                this.y = this.y - 83;
+            break;
+        case 'down':
+            if ((this.y +83) <= 415)
+                this.y = this.y + 83;
+            break;
+        case 'left':
+            if ((this.x - 101) >= 0)
+                this.x = this.x - 101;
+            break;
+        case 'right':
+            if ((this.x +101) < 505)
+                this.x = this.x + 101;
+            break;
+    }
+    //console.log(this.x, this.y);
+}
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
+var allEnemies = [];
+allEnemies.push (new Enemy(1,-1,100));
+allEnemies.push (new Enemy(2,-2, 60));
+allEnemies.push (new Enemy(2,-6, 100));
+allEnemies.push (new Enemy(3,-10, 150));
 
+// Place the player object in a variable called player
+player = new Player(5,2);
 
 
 // This listens for key presses and sends the keys to your

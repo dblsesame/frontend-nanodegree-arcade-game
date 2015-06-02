@@ -80,9 +80,25 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
     }
 
+    function checkCollisions() {
+        if (player.y >=83 && player.y <=3 *83) // in Enemy zone
+        {
+            for (var e of allEnemies) {
+                //console.log(e.x, player.x);
+                if ((e.y == player.y) && (Math.abs(e.x - player.x) < 101)) {
+                    //reset player to start posistion
+                    player.x = 2*101;
+                    player.y = 5* 83;
+                    console.log("collides");
+                    break;
+                } // collides
+
+            }
+        }
+    }
     /* This is called by the update function  and loops through all of the
      * objects within your allEnemies array as defined in app.js and calls
      * their update() methods. It will then call the update function for your
