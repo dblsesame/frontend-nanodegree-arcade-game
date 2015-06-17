@@ -28,6 +28,8 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    if (pause) return;
+    
     this.x = (this.x + (this.speed*dt)) % 750;  
     //mod with slightly large than width to give some breathing room
 }
@@ -56,19 +58,24 @@ Player.prototype.update = function () {
 Player.prototype.restart = function () {
     this.x = 2*101;
     this.y = 5* 83;
+    this.score = 0;
 }
 
 Player.prototype.handleInput = function(key) {
     //console.log(key);
+    if (pause)
+        return;
     // update the coordiate when user press arrow keys
     // no move if the new position is out of bound
     var won = false;
     switch (key) {
         case 'up':
-            if ((this.y - 83) >= 0)
+            if (this.y - 83 >= 0)
+            {
                 this.y = this.y - 83;
-            else 
-                won = true;// you won!
+                if (this.y  == 0)
+                    won = true;// you won!
+            }    
             break;
         case 'down':
             if ((this.y +83) <= 415)
@@ -82,13 +89,16 @@ Player.prototype.handleInput = function(key) {
             if ((this.x +101) < 505)
                 this.x = this.x + 101;
             break;
+        default:
+            return;
     }
     // every move is awarded for 10 points
     this.score = this.score + 10;
     //console.log(this.x, this.y);
     if (won) {
         this.score = this.score + 1000;
-        this.restart();
+        pause = true;
+        $( ".won" ).dialog("open");
     }
 }
 // Now instantiate your objects.
@@ -97,8 +107,8 @@ var allEnemies = [];
 allEnemies.push (new Enemy(1,-1,200));
 allEnemies.push (new Enemy(2,-2, 160));
 allEnemies.push (new Enemy(2,-6, 300));
-allEnemies.push (new Enemy(3,-10, 150));
-allEnemies.push (new Enemy(2,-6, 300));
+allEnemies.push (new Enemy(3,-8, 150));
+allEnemies.push (new Enemy(3,-5, 60));
 
 
 // Place the player object in a variable called player

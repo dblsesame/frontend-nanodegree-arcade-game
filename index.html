@@ -2,29 +2,38 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="device-width">
+	<meta name="viewport" content="width=device-width; initial-scale=1">
     <title>Effective JavaScript: Frogger</title>
     <link rel="stylesheet" href="css/style.css">
     <!-- include jQuery library -->
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-	<script src="js/jquery.cycle.lite.js"></script>
+    <link rel="stylesheet" href="css/jquery-ui.theme.min.css">
+	<script src="js/jQuery.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
+    <script src="js/jquery.cycle.lite.js"></script>
+
 </head>
 <body>
-
-    <div id="ctrlpanel">
-    	<div id="avatar" >
-    		<img src="images/char-boy.png" width="100" height="170">
-    		<img src="images/char-cat-girl.png" width="100" height="170">
-    		<img src="images/char-horn-girl.png" width="100" height="170">
-    		<img src="images/char-pink-girl.png" width="100" height="170">
-    		<img src="images/char-princess-girl.png" width="100" height="170">
+    <div class="box">
+	<div class="ctrlpanel">
+        <div class="avatar" >
+    		<img src="images/char-boy.png">
+    		<img src="images/char-cat-girl.png" >
+    		<img src="images/char-horn-girl.png" >
+    		<img src="images/char-pink-girl.png" >
+    		<img src="images/char-princess-girl.png">
     	</div>
-    	
-    	<div id="score"> 0 points</div> 
-
+    	<div class="score"> 0 points</div>
     </div>
-    <div id="game">
-    	<canvas id="gamecanvas" width="505" height="606"></canvas>
+
+    <div class="game">
+    	<canvas class="gamecanvas" width="505" height="606"></canvas>
+    </div>
+    </div>
+    <div class="won" title="  Frogger  ">
+        <p>You Won!</p>
+    </div>
+    <div class="lost" title="  Frogger  ">
+        <p>Uh-oh </p>
     </div>
     <script src="js/resources.js"></script>
     <script src="js/app.js"></script>

@@ -1,24 +1,42 @@
 body {
     text-align: center;
 }
-
-#ctrlpanel {
-	width: 120px;
+.box {
+	position: relative;
+	height: 606px;
+	text-align: left;
+}
+.ctrlpanel {
+	position: relative;
+	width: 100px;
+	height: 280px;
 	float: left;
 }
 
-#avatar {
+.avatar {
+	position: absolute;
 	padding: 0;
 	margin: 0;
-}
-
-#avatar img {
 	width: 100px;
-	height: 170px;
+	height: 180px;
 	top:0;
 	left: 0;
 }
 
-#score {
+.avatar img {
+	position: absolute;
+	top:0;
+	left: 0;
+}
+.score {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	text-align: center;
+	font: bold 24px "Comic Sans MS", cursive, sans-serif;
+}
+
+.game {
 	position: relative;
 }
+

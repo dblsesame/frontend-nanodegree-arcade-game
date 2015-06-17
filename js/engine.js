@@ -22,12 +22,12 @@ var Engine = (function(global) {
     var doc = global.document,
         win = global.window,
         //canvas = doc.createElement('canvas'),
-        canvas = doc.querySelector("#gamecanvas"),
-        score = doc.querySelector("#score"),
+        canvas = doc.querySelector(".gamecanvas"),
+        score = doc.querySelector(".score"),
         ctx = canvas.getContext('2d'),
+        pause = false,
         lastTime;
 
-        
     //canvas.width = 505;
     //canvas.height = 606;
     //doc.body.appendChild(canvas);
@@ -70,11 +70,48 @@ var Engine = (function(global) {
         reset();
         lastTime = Date.now();
         main();
-        $("#avatar").cycle ({
+        $(".avatar").cycle ({
             fx: 'fade',
             timeout: 0,
-            next: '#avatar',
+            next: '.avatar',
             after: changeAvatar
+        });
+        $( ".won" ).dialog({
+          autoOpen: false,
+          modal: true,
+          show: {
+            effect: "blind",
+            duration: 1000
+          },
+          hide: {
+            effect: "explode",
+            duration: 1000
+          },
+          buttons: {
+            OK: function() {
+                 $( this ).dialog( "close" );
+                 player.restart();
+                 global.pause = false;
+            }
+          }
+        });
+        $( ".lost" ).dialog({
+          autoOpen: false,
+          modal: true,
+          show: {
+            effect: "blind",
+            duration: 1000
+          },
+          hide: {
+            effect: "explode",
+            duration: 1000
+          },
+          buttons: {
+            OK: function() {
+                 $( this ).dialog( "close" );
+                 global.pause = false;
+            }
+          }
         });
     }
 
@@ -100,8 +137,9 @@ var Engine = (function(global) {
                 // reduce from 101 to 80 for the transparent area in the png
                 if ((e.y == player.y) && (Math.abs(e.x - player.x) < 80)) {
                     //reset player to start posistion
+                    $( ".lost" ).dialog("open");
                     player.restart();
-                    player.score -= 100;
+                    global.pause = true;
                     //console.log("collides");
                     break;
                 } // collides
@@ -221,4 +259,5 @@ var Engine = (function(global) {
      * from within their app.js files.
      */
     global.ctx = ctx;
+    global.pause = pause;
 })(this);
