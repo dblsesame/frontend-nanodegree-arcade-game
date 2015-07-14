@@ -1,5 +1,5 @@
 body {
-    text-align: center;
+	text-align: center;
 }
 .box {
 	position: relative;
@@ -12,7 +12,6 @@ body {
 	height: 280px;
 	float: left;
 }
-
 .avatar {
 	position: absolute;
 	padding: 0;
@@ -22,7 +21,6 @@ body {
 	top:0;
 	left: 0;
 }
-
 .avatar img {
 	position: absolute;
 	top:0;
@@ -35,8 +33,6 @@ body {
 	text-align: center;
 	font: bold 24px "Comic Sans MS", cursive, sans-serif;
 }
-
 .game {
 	position: relative;
 }
-

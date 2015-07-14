@@ -1,3 +1,4 @@
+'use strict';
 /* Engine.js
  * This file provides the game loop functionality (update entities and render),
  * draws the initial game board on the screen, and then calls the update and
@@ -22,8 +23,8 @@ var Engine = (function(global) {
     var doc = global.document,
         win = global.window,
         //canvas = doc.createElement('canvas'),
-        canvas = doc.querySelector(".gamecanvas"),
-        score = doc.querySelector(".score"),
+        canvas = doc.querySelector('.gamecanvas'),
+        score = doc.querySelector('.score'),
         ctx = canvas.getContext('2d'),
         pause = false,
         lastTime;
@@ -60,7 +61,7 @@ var Engine = (function(global) {
          * function again as soon as the browser is able to draw another frame.
          */
         win.requestAnimationFrame(main);
-    };
+    }
 
     /* This function does some initial setup that should only occur once,
      * particularly setting the lastTime variable that is required for the
@@ -70,45 +71,45 @@ var Engine = (function(global) {
         reset();
         lastTime = Date.now();
         main();
-        $(".avatar").cycle ({
+        $('.avatar').cycle ({
             fx: 'fade',
             timeout: 0,
             next: '.avatar',
             after: changeAvatar
         });
-        $( ".won" ).dialog({
+        $( '.won' ).dialog({
           autoOpen: false,
           modal: true,
           show: {
-            effect: "blind",
+            effect: 'blind',
             duration: 1000
           },
           hide: {
-            effect: "explode",
+            effect: 'explode',
             duration: 1000
           },
           buttons: {
             OK: function() {
-                 $( this ).dialog( "close" );
+                 $( this ).dialog( 'close' );
                  player.restart();
                  global.pause = false;
             }
           }
         });
-        $( ".lost" ).dialog({
+        $( '.lost' ).dialog({
           autoOpen: false,
           modal: true,
           show: {
-            effect: "blind",
+            effect: 'blind',
             duration: 1000
           },
           hide: {
-            effect: "explode",
+            effect: 'explode',
             duration: 1000
           },
           buttons: {
             OK: function() {
-                 $( this ).dialog( "close" );
+                 $( this ).dialog( 'close' );
                  global.pause = false;
             }
           }
@@ -137,10 +138,10 @@ var Engine = (function(global) {
                 // reduce from 101 to 80 for the transparent area in the png
                 if ((e.y == player.y) && (Math.abs(e.x - player.x) < 80)) {
                     //reset player to start posistion
-                    $( ".lost" ).dialog("open");
+                    $( '.lost' ).dialog('open');
                     player.restart();
                     global.pause = true;
-                    //console.log("collides");
+                    //console.log('collides');
                     break;
                 } // collides
 
@@ -158,10 +159,10 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        player.update();
+        // player.update();
     }
 
-    /* This function initially draws the "game level", it will then call
+    /* This function initially draws the 'game level', it will then call
      * the renderEntities function. Remember, this function is called every
      * game tick (or loop of the game engine) because that's how games work -
      * they are flipbooks creating the illusion of animation but in reality
@@ -185,7 +186,7 @@ var Engine = (function(global) {
 
         /* Loop through the number of rows and columns we've defined above
          * and, using the rowImages array, draw the correct image for that
-         * portion of the "grid"
+         * portion of the 'grid'
          */
         for (row = 0; row < numRows; row++) {
             for (col = 0; col < numCols; col++) {
@@ -230,12 +231,12 @@ var Engine = (function(global) {
 
     function showScore() {
         
-        score.innerHTML = player.score + " points";
+        score.innerHTML = player.score + ' points';
     }
 
     function changeAvatar() {
         
-        player.sprite = this.src.substring(this.src.indexOf("images/"));
+        player.sprite = this.src.substring(this.src.indexOf('images/'));
     }
     /* Go ahead and load all of the images we know we're going to need to
      * draw our game level. Then set init as the callback method, so that when
